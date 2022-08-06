@@ -2,7 +2,10 @@ package com.spring.guru.aaron.course.entities;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -11,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-public class Publisher {
+public class Address {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,11 +22,11 @@ public class Publisher {
   private Long id;
 
   @NonNull
-  private String name;
-
-  @ManyToOne
-  @JoinColumn(name = "address_id")
+  private String addressLine1;
   @NonNull
-  private Address addressId;
-
+  private String city;
+  @NonNull
+  private String state;
+  @NonNull
+  private String zipCode;
 }

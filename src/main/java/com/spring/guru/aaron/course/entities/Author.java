@@ -10,11 +10,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
 public class Author {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @EqualsAndHashCode.Include
   Long id;
 
   @NonNull
@@ -23,6 +26,14 @@ public class Author {
   @NonNull
   private String lastName;
 
-  @ManyToMany(mappedBy = "author_book")
+  @ManyToMany(mappedBy = "authors")
   private Set<Book> books = new HashSet<>();
+
+  public boolean addBook(Book book) {
+    return books.add(book);
+  }
+
+  public boolean removeBook(Book book) {
+    return books.remove(book);
+  }
 }
