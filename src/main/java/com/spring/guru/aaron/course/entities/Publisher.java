@@ -24,6 +24,6 @@ public class Publisher {
   @ManyToOne
   @JoinColumn(name = "address_id")
   @NonNull
-  private Address addressId;
+  private Address address;
 
 }
