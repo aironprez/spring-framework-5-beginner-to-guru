@@ -31,6 +31,10 @@ public class Book {
       inverseJoinColumns = @JoinColumn(name = "author_id"))
   private Set<Author> authors = new HashSet<>();
 
+  @ManyToOne
+  @JoinColumn(name = "publisher_id")
+  private Publisher publisher;
+
   public boolean addAuthor(Author author) {
     return authors.add(author);
   }
@@ -42,16 +46,26 @@ public class Book {
   @Override
   public String toString() {
     String authorsNames = getListOfAuthorsNames();
+    String simplePublisherString = getSimplePublisherString();
     return "Book{" +
         "id=" + id +
         ", title='" + title + '\'' +
         ", isbn='" + isbn + '\'' +
         ", authors='" + authorsNames + '\'' +
+        ", publisher='" + simplePublisherString + '\'' +
         '}';
   }
 
   private String getListOfAuthorsNames() {
     return authors.stream().map(author -> author.getLastName() + ", " + author.getFirstName())
         .collect(Collectors.toSet()).toString();
+  }
+
+  private String getSimplePublisherString() {
+    return "Publisher{" +
+        "id=" + publisher.getId() +
+        ", name='" + publisher.getName() + '\'' +
+        ", address=" + publisher.getAddress() +
+        '}';
   }
 }

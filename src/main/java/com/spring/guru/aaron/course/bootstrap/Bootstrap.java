@@ -31,40 +31,32 @@ public class Bootstrap implements CommandLineRunner {
   }
 
   @Override
-  public void run(String... args) throws Exception {
-    createAuthorAndBook();
-    createPublisher();
-  }
-
-  private void createAuthorAndBook() {
+  public void run(String... args) {
+    Address address = new Address("123 Asdf St", "Houston", "TX", "77009");
+    Publisher publisher = new Publisher("BadAss Publisher", address);
     Author hemingway = new Author("Ernest", "Hemingway");
     Book theSunAlsoRises = new Book("The Sun Also Rises", "9780020518709");
 
     hemingway.addBook(theSunAlsoRises);
     theSunAlsoRises.addAuthor(hemingway);
+    theSunAlsoRises.setPublisher(publisher);
+    publisher.addBook(theSunAlsoRises);
 
-    logger.debug(hemingway.toString());
-    logger.debug("number of authors: {}", authorsRepo.count());
-    logger.debug("number of books: {}", booksRepo.count());
-
-    authorsRepo.save(hemingway);
-    booksRepo.save(theSunAlsoRises);
-
-    logger.debug(hemingway.toString());
-    logger.debug("number of authors: {}", authorsRepo.count());
-    logger.debug("number of books: {}", booksRepo.count());
-  }
-
-  private void createPublisher() {
-    Address address = new Address("123 Asdf St", "Houston", "TX", "77009");
-    Publisher publisher = new Publisher("BadAss Publisher", address);
-
-    logger.debug(publisher.toString());
-    logger.debug("number of publishers: {}", publishersRepo.count());
-    logger.debug("number of addresses: {}", addressesRepo.count());
+    logData(publisher, hemingway);
 
     addressesRepo.save(address);
+    authorsRepo.save(hemingway);
     publishersRepo.save(publisher);
+    booksRepo.save(theSunAlsoRises);
+
+    logData(publisher, hemingway);
+
+  }
+
+  private void logData(Publisher publisher, Author hemingway) {
+    logger.debug(hemingway.toString());
+    logger.debug("number of authors: {}", authorsRepo.count());
+    logger.debug("number of books: {}", booksRepo.count());
     logger.debug(publisher.toString());
     logger.debug("number of publishers: {}", publishersRepo.count());
     logger.debug("number of addresses: {}", addressesRepo.count());
